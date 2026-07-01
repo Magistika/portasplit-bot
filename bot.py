@@ -8,28 +8,26 @@ def run():
 
     if not offers:
         print("Keine passenden Angebote gefunden.")
-        send("✅ PortaSplit Bot läuft. Aktuell keine Angebote ≤ 900 € gefunden.")
         return
 
     for offer in offers:
 
         if already_sent(offer["id"]):
-            print("Bereits gemeldet:", offer["title"])
+            print("Bereits gemeldet:", offer["source"])
             continue
 
         message = (
-            "🚨 PortaSplit Angebot gefunden!\n\n"
+            f"🚨 Midea PortaSplit gefunden!\n\n"
             f"Quelle: {offer['source']}\n"
-            f"Titel: {offer['title']}\n"
-            f"Preis: {offer['price']:.2f} €\n"
-            f"Link: {offer['url']}"
+            f"Preis: {offer['price']} €\n"
+            f"Link:\n{offer['url']}"
         )
 
         send(message)
 
         mark_sent(offer["id"])
 
-        print("Sent alert:", offer["title"])
+        print("Sent alert:", offer["source"])
 
 
 if __name__ == "__main__":
