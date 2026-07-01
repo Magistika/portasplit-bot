@@ -25,10 +25,6 @@ SOURCES = [
         "url": "https://www.otto.de/suche/midea%20portasplit/"
     },
     {
-        "name": "Amazon IT",
-        "url": "https://www.amazon.it/s?k=midea+portasplit"
-    },
-    {
         "name": "Amazon PL",
         "url": "https://www.amazon.pl/s?k=midea+portasplit"
     }
@@ -37,9 +33,24 @@ SOURCES = [
 
 def extract_price(text):
     text = text.replace(".", "").replace(",", ".")
-    matches = re.findall(r"(\d+(?:\.\d{1,2})?)\s*€", text)
-    prices = [float(x) for x in matches]
-    return min(prices) if prices else None
+
+    matches = re.findall(
+        r"(\d+(?:\.\d{1,2})?)\s*€",
+        text
+    )
+
+    prices = []
+
+    for match in matches:
+        try:
+            prices.append(float(match))
+        except:
+            pass
+
+    if not prices:
+        return None
+
+    return min(prices)
 
 
 def clean_text(text):
@@ -88,8 +99,8 @@ def search_generic(source):
             return offers
 
         offers.append({
-            "id": source["url"],
-            "title": "Midea PortaSplit gefunden",
+            "id": f"{source['name']}-{price}",
+            "title": source["name"],
             "price": price,
             "url": source["url"],
             "source": source["name"]
