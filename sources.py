@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from urllib.parse import urljoin
 from config import MAX_PRICE
 
 HEADERS = {
@@ -8,62 +9,58 @@ HEADERS = {
 }
 
 SOURCES = [
-    {
-        "name": "Prosatech",
-        "url": "https://www.prosatech.de/search?sSearch=midea%20portasplit"
-    },
-    {
-        "name": "HORNBACH",
-        "url": "https://www.hornbach.de/suche/?searchTerm=midea%20portasplit"
-    },
-    {
-        "name": "Globus Baumarkt",
-        "url": "https://www.globus-baumarkt.de/search?sSearch=midea%20portasplit"
-    },
-    {
-        "name": "OTTO",
-        "url": "https://www.otto.de/suche/midea%20portasplit/"
-    },
-    {
-        "name": "Amazon PL",
-        "url": "https://www.amazon.pl/s?k=midea+portasplit"
-    }
+    {"name": "Prosatech", "url": "https://www.prosatech.de/search?sSearch=midea%20portasplit"},
+    {"name": "HORNBACH", "url": "https://www.hornbach.de/suche/?searchTerm=midea%20portasplit"},
+    {"name": "Globus Baumarkt", "url": "https://www.globus-baumarkt.de/search?sSearch=midea%20portasplit"},
+    {"name": "OTTO", "url": "https://www.otto.de/suche/midea%20portasplit/"},
+    {"name": "Amazon PL", "url": "https://www.amazon.pl/s?k=midea+portasplit"},
 ]
-
-
-def extract_price(text):
-    text = text.replace(".", "").replace(",", ".")
-
-    matches = re.findall(
-        r"(\d+(?:\.\d{1,2})?)\s*€",
-        text
-    )
-
-    prices = []
-
-    for match in matches:
-        try:
-            prices.append(float(match))
-        except:
-            pass
-
-    if not prices:
-        return None
-
-    return min(prices)
 
 
 def clean_text(text):
     return " ".join(text.split())
 
 
-def looks_relevant(text):
-    text = text.lower()
+def extract_price(text):
+    text = text.replace(".", "").replace(",", ".")
+    matches = re.findall(r"(\d+(?:\.\d{1,2})?)\s*€", text)
+    prices = []
 
-    return (
-        "midea" in text
-        and "portasplit" in text
-    )
+    for match in matches:
+        try:
+            price = float(match)
+            if 100 <= price <= 2000:
+                prices.append(price)
+        except:
+            pass
+
+    return min(prices) if prices else None
+
+
+def is_relevant(text):
+    t = text.lower()
+
+    if "midea" not in t:
+        return False
+
+    if "portasplit" not in t:
+        return False
+
+    bad_words = [
+        "zubehör",
+        "ersatzteil",
+        "filter",
+        "schlauch",
+        "fernbedienung",
+        "abdeckung",
+        "halterung",
+    ]
+
+    for word in bad_words:
+        if word in t:
+            return False
+
+    return True
 
 
 def search_generic(source):
@@ -83,28 +80,37 @@ def search_generic(source):
 
         soup = BeautifulSoup(r.text, "lxml")
 
-        page_text = clean_text(
-            soup.get_text(" ", strip=True)
-        )
+        blocks = soup.find_all(["article", "li", "div", "section"])
 
-        if not looks_relevant(page_text):
-            return offers
+        for block in blocks:
+            text = clean_text(block.get_text(" ", strip=True))
 
-        price = extract_price(page_text)
+            if not is_relevant(text):
+                continue
 
-        if not price:
-            return offers
+            price = extract_price(text)
 
-        if price > MAX_PRICE:
-            return offers
+            if not price:
+                continue
 
-        offers.append({
-            "id": f"{source['name']}-{price}",
-            "title": source["name"],
-            "price": price,
-            "url": source["url"],
-            "source": source["name"]
-        })
+            if price > MAX_PRICE:
+                continue
+
+            link = source["url"]
+
+            a = block.find("a", href=True)
+            if a:
+                link = urljoin(source["url"], a["href"])
+
+            title = text[:120]
+
+            offers.append({
+                "id": f"{source['name']}-{price}-{link}",
+                "title": title,
+                "price": price,
+                "url": link,
+                "source": source["name"]
+            })
 
     except Exception as e:
         print(source["name"], "exception:", e)
@@ -116,8 +122,6 @@ def search_all_sources():
     results = []
 
     for source in SOURCES:
-        results.extend(
-            search_generic(source)
-        )
+        results.extend(search_generic(source))
 
     return results
