@@ -1,0 +1,7 @@
+import os
+
+SEARCH_QUERY = "Midea PortaSplit 12000 BTU"
+MAX_PRICE = 900
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
