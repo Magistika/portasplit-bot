@@ -11,7 +11,6 @@ def run():
         return
 
     for offer in offers:
-
         if already_sent(offer["id"]):
             print("Bereits gemeldet:", offer["source"])
             continue
@@ -24,7 +23,6 @@ def run():
         )
 
         send(message)
-
         mark_sent(offer["id"])
 
         print("Sent alert:", offer["source"])
