@@ -3,64 +3,113 @@ import requests
 from bs4 import BeautifulSoup
 from config import MAX_PRICE
 
-SEARCH_TERMS = [
-    "Midea PortaSplit 12000 BTU unter 900",
-    "Midea PortaSplit 12.000 BTU 899",
-    "Midea PortaSplit 3,5 kW kaufen",
-    "Midea PortaSplit Klimaanlage Angebot",
+HEADERS = {
+    "User-Agent": "Mozilla/5.0"
+}
+
+SOURCES = [
+    # Deutschland
+    {"name": "BAUHAUS", "url": "https://www.bauhaus.info/suche/produkte?text=midea%20portasplit"},
+    {"name": "OBI", "url": "https://www.obi.de/search/midea%20portasplit/"},
+    {"name": "Amazon DE", "url": "https://www.amazon.de/s?k=midea+portasplit"},
+    {"name": "toom Baumarkt", "url": "https://toom.de/suche/?search=midea%20portasplit"},
+    {"name": "idealo", "url": "https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q=midea%20portasplit"},
+    {"name": "Prosatech", "url": "https://www.prosatech.de/search?sSearch=midea%20portasplit"},
+
+    # weiteres Deutschland / Marktplätze
+    {"name": "HORNBACH", "url": "https://www.hornbach.de/suche/?searchTerm=midea%20portasplit"},
+    {"name": "hagebau", "url": "https://www.hagebau.de/suche/?q=midea%20portasplit"},
+    {"name": "Globus Baumarkt", "url": "https://www.globus-baumarkt.de/search?sSearch=midea%20portasplit"},
+    {"name": "Kaufland", "url": "https://www.kaufland.de/s/?search_value=midea%20portasplit"},
+    {"name": "OTTO", "url": "https://www.otto.de/suche/midea%20portasplit/"},
+
+    # benachbartes Ausland / EU
+    {"name": "Amazon FR", "url": "https://www.amazon.fr/s?k=midea+portasplit"},
+    {"name": "Amazon IT", "url": "https://www.amazon.it/s?k=midea+portasplit"},
+    {"name": "Amazon NL", "url": "https://www.amazon.nl/s?k=midea+portasplit"},
+    {"name": "Amazon PL", "url": "https://www.amazon.pl/s?k=midea+portasplit"},
+    {"name": "Leroy Merlin FR", "url": "https://www.leroymerlin.fr/recherche/?q=midea%20portasplit"},
+    {"name": "ManoMano DE", "url": "https://www.manomano.de/suche/midea+portasplit"},
+    {"name": "ManoMano FR", "url": "https://www.manomano.fr/recherche/midea-portasplit"},
 ]
 
-HEADERS = {"User-Agent": "Mozilla/5.0"}
 
-def extract_price(text: str):
+def extract_price(text):
     text = text.replace(".", "").replace(",", ".")
     matches = re.findall(r"(\d+(?:\.\d{1,2})?)\s*€", text)
     prices = [float(x) for x in matches]
     return min(prices) if prices else None
 
-def search_duckduckgo():
+
+def clean_text(text):
+    return " ".join(text.split())
+
+
+def looks_relevant(text):
+    text = text.lower()
+    return (
+        "midea" in text
+        and "portasplit" in text
+    )
+
+
+def shipping_possible_text(text):
+    text = text.lower()
+    bad_words = [
+        "kein versand nach deutschland",
+        "nicht nach deutschland",
+        "not ship to germany",
+        "does not ship to germany",
+        "livraison non disponible en allemagne",
+    ]
+
+    for word in bad_words:
+        if word in text:
+            return False
+
+    return True
+
+
+def search_generic(source):
     offers = []
 
-    for term in SEARCH_TERMS:
-        url = "https://html.duckduckgo.com/html/?q=" + requests.utils.quote(term)
+    try:
+        r = requests.get(source["url"], headers=HEADERS, timeout=25)
+        print(source["name"], "status:", r.status_code)
 
-        try:
-            r = requests.get(url, headers=HEADERS, timeout=20)
-            print("DuckDuckGo status:", r.status_code)
+        if r.status_code != 200:
+            return offers
 
-            soup = BeautifulSoup(r.text, "lxml")
+        soup = BeautifulSoup(r.text, "lxml")
+        page_text = clean_text(soup.get_text(" ", strip=True))
 
-            for result in soup.select(".result"):
-                title_el = result.select_one(".result__title")
-                link_el = result.select_one(".result__a")
-                snippet_el = result.select_one(".result__snippet")
+        if not looks_relevant(page_text):
+            return offers
 
-                if not title_el or not link_el:
-                    continue
+        if not shipping_possible_text(page_text):
+            return offers
 
-                title = title_el.get_text(" ", strip=True)
-                link = link_el.get("href", "")
-                snippet = snippet_el.get_text(" ", strip=True) if snippet_el else ""
+        price = extract_price(page_text)
 
-                combined = f"{title} {snippet}".lower()
+        if price and price <= MAX_PRICE:
+            offers.append({
+                "id": source["url"],
+                "title": "Midea PortaSplit gefunden",
+                "price": price,
+                "url": source["url"],
+                "source": source["name"]
+            })
 
-                if "midea" not in combined or "portasplit" not in combined:
-                    continue
-
-                price = extract_price(combined)
-                if price and price <= MAX_PRICE:
-                    offers.append({
-                        "id": link,
-                        "title": title,
-                        "price": price,
-                        "url": link,
-                        "source": "DuckDuckGo"
-                    })
-
-        except Exception as e:
-            print("DuckDuckGo exception:", e)
+    except Exception as e:
+        print(source["name"], "exception:", e)
 
     return offers
 
+
 def search_all_sources():
-    return search_duckduckgo()
+    results = []
+
+    for source in SOURCES:
+        results.extend(search_generic(source))
+
+    return results
