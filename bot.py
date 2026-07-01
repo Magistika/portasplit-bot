@@ -5,9 +5,10 @@ from sources import search_all_sources
 def run():
     offers = search_all_sources()
 
-    if not offers:
-        print("Keine passenden Angebote gefunden.")
-        return
+   if not offers:
+    print("Keine passenden Angebote gefunden.")
+    send("✅ PortaSplit Bot läuft. Aktuell keine Angebote ≤ 900 € gefunden.")
+    return 
 
     for offer in offers:
         message = (
