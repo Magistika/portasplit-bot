@@ -13,9 +13,8 @@ SOURCES = [
     {"name": "Prosatech", "url": "https://www.prosatech.de/search?sSearch=midea%20portasplit"},
     {"name": "HORNBACH", "url": "https://www.hornbach.de/suche/?searchTerm=midea%20portasplit"},
     {"name": "Globus Baumarkt", "url": "https://www.globus-baumarkt.de/search?sSearch=midea%20portasplit"},
-    {"name": "OTTO", "url": "https://www.otto.de/suche/midea%20portasplit/"},
-    {"name": "Kleinanzeigen", "url": "https://www.kleinanzeigen.de/s-midea-portasplit/k0"},
-
+    {"name": "OTTO", "url": "https://www.otto.de/suche/midea%20portasplit"},
+    {"name": "Kleinanzeigen 80km", "url": "https://www.kleinanzeigen.de/s-midea-portasplit/92224/radius:80/k0"},
     {"name": "BAUHAUS", "url": "https://www.bauhaus.info/suche/produkte?text=midea%20portasplit"},
     {"name": "OBI", "url": "https://www.obi.de/suche/midea%20portasplit/"},
     {"name": "hagebau", "url": "https://www.hagebau.de/suche/?q=midea%20portasplit"},
