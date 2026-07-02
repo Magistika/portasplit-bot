@@ -1,7 +1,7 @@
 name: PortaSplit Bot v2
 
 on:
-  push:
+
   schedule:
     - cron: '*/15 * * * *'
   workflow_dispatch:
