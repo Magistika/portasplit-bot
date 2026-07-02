@@ -80,6 +80,16 @@ SOURCES = [
     # Preisvergleich
     {"name": "Geizhals AT", "url": "https://geizhals.at/?fs=midea+portasplit"},
     {"name": "Heureka CZ", "url": "https://www.heureka.cz/?h%5Bfraze%5D=midea+portasplit"},
+
+    # Weitere Baumärkte Europa
+{"name": "BraucheKlima", "url": "https://braucheklima.de/"},
+{"name": "Hornbach AT", "url": "https://www.hornbach.at/suche/?searchTerm=midea%20portasplit"},
+{"name": "Hornbach CH", "url": "https://www.hornbach.ch/de/search/?q=midea%20portasplit"},
+{"name": "OBI AT", "url": "https://www.obi.at/suche/midea%20portasplit/"},
+{"name": "Jumbo CH", "url": "https://www.jumbo.ch/de/search?text=midea%20portasplit"},
+{"name": "Landi CH", "url": "https://www.landi.ch/shop/search?text=midea%20portasplit"},
+{"name": "Hornbach CZ", "url": "https://www.hornbach.cz/hledat/?q=midea%20portasplit"},
+{"name": "OBI CZ", "url": "https://www.obi.cz/search/midea%20portasplit"},
     
     # Sonstige
     {"name": "Google Shopping", "url": "https://www.google.com/search?tbm=shop&q=midea+portasplit"}
