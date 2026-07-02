@@ -73,6 +73,15 @@ SOURCES = [
     {"name": "Ceneo PL", "url": "https://www.ceneo.pl/;szukaj-midea+portasplit"},
     {"name": "Bol NL", "url": "https://www.bol.com/nl/nl/s/?searchtext=midea+portasplit"},
 
+       # Weitere Marktplätze
+    {"name": "Willhaben AT", "url": "https://www.willhaben.at/iad/kaufen-und-verkaufen/marktplatz?keyword=midea%20portasplit"},
+    {"name": "Ricardo CH", "url": "https://www.ricardo.ch/de/s/midea%20portasplit"},
+    {"name": "Bazos CZ", "url": "https://www.bazos.cz/search.php?hledat=midea%20portasplit"},
+
+    # Preisvergleich
+    {"name": "Geizhals AT", "url": "https://geizhals.at/?fs=midea+portasplit"},
+    {"name": "Heureka CZ", "url": "https://www.heureka.cz/?h%5Bfraze%5D=midea+portasplit"},
+    
     # Sonstige
     {"name": "Google Shopping", "url": "https://www.google.com/search?tbm=shop&q=midea+portasplit"}
 ]
