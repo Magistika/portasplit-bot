@@ -9,15 +9,74 @@ HEADERS = {
 }
 
 SOURCES = [
+    # Deutschland
     {"name": "Prosatech", "url": "https://www.prosatech.de/search?sSearch=midea%20portasplit"},
     {"name": "HORNBACH", "url": "https://www.hornbach.de/suche/?searchTerm=midea%20portasplit"},
     {"name": "Globus Baumarkt", "url": "https://www.globus-baumarkt.de/search?sSearch=midea%20portasplit"},
     {"name": "OTTO", "url": "https://www.otto.de/suche/midea%20portasplit/"},
     {"name": "Kleinanzeigen", "url": "https://www.kleinanzeigen.de/s-midea-portasplit/k0"},
-    {"name": "Google Shopping", "url": "https://www.google.com/search?tbm=shop&q=midea+portasplit"},
+
+    {"name": "BAUHAUS", "url": "https://www.bauhaus.info/suche/produkte?text=midea%20portasplit"},
+    {"name": "OBI", "url": "https://www.obi.de/suche/midea%20portasplit/"},
+    {"name": "hagebau", "url": "https://www.hagebau.de/suche/?q=midea%20portasplit"},
+    {"name": "toom", "url": "https://toom.de/suche/?q=midea%20portasplit"},
+
+    {"name": "MediaMarkt DE", "url": "https://www.mediamarkt.de/de/search.html?query=midea%20portasplit"},
+    {"name": "Saturn", "url": "https://www.saturn.de/de/search.html?query=midea%20portasplit"},
+    {"name": "Expert", "url": "https://www.expert.de/shop/search?query=midea%20portasplit"},
+    {"name": "Conrad", "url": "https://www.conrad.de/de/search.html?search=midea%20portasplit"},
+    {"name": "Voelkner", "url": "https://www.voelkner.de/search?sSearch=midea%20portasplit"},
+
+    {"name": "Kaufland", "url": "https://www.kaufland.de/suche/?search_value=midea%20portasplit"},
+    {"name": "Idealo", "url": "https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q=midea%20portasplit"},
+    {"name": "Geizhals", "url": "https://geizhals.de/?fs=midea+portasplit"},
+
+    {"name": "Klimaworld", "url": "https://www.klimaworld.com/catalogsearch/result/?q=midea%20portasplit"},
+    {"name": "Selfio", "url": "https://www.selfio.de/catalogsearch/result/?q=midea%20portasplit"},
+    {"name": "Kältebringer", "url": "https://www.kaeltebringer.de/search?sSearch=midea%20portasplit"},
+
+    # Amazon
+    {"name": "Amazon DE", "url": "https://www.amazon.de/s?k=midea+portasplit"},
+    {"name": "Amazon FR", "url": "https://www.amazon.fr/s?k=midea+portasplit"},
+    {"name": "Amazon IT", "url": "https://www.amazon.it/s?k=midea+portasplit"},
+    {"name": "Amazon ES", "url": "https://www.amazon.es/s?k=midea+portasplit"},
+    {"name": "Amazon NL", "url": "https://www.amazon.nl/s?k=midea+portasplit"},
+    {"name": "Amazon PL", "url": "https://www.amazon.pl/s?k=midea+portasplit"},
+
+    # eBay
+    {"name": "eBay DE", "url": "https://www.ebay.de/sch/i.html?_nkw=midea+portasplit"},
+    {"name": "eBay FR", "url": "https://www.ebay.fr/sch/i.html?_nkw=midea+portasplit"},
+    {"name": "eBay IT", "url": "https://www.ebay.it/sch/i.html?_nkw=midea+portasplit"},
+    {"name": "eBay PL", "url": "https://www.ebay.pl/sch/i.html?_nkw=midea+portasplit"},
+
+    # Österreich
+    {"name": "MediaMarkt AT", "url": "https://www.mediamarkt.at/de/search.html?query=midea%20portasplit"},
+    {"name": "Willhaben", "url": "https://www.willhaben.at/iad/kaufen-und-verkaufen/marktplatz?keyword=midea%20portasplit"},
+    {"name": "Geizhals AT", "url": "https://geizhals.at/?fs=midea+portasplit"},
+    {"name": "Alza AT", "url": "https://www.alza.at/search.htm?exps=midea%20portasplit"},
+
+    # Schweiz
+    {"name": "Ricardo CH", "url": "https://www.ricardo.ch/de/s/midea%20portasplit"},
+    {"name": "Digitec CH", "url": "https://www.digitec.ch/de/search?q=midea%20portasplit"},
+    {"name": "Galaxus CH", "url": "https://www.galaxus.ch/de/search?q=midea%20portasplit"},
+    {"name": "Brack CH", "url": "https://www.brack.ch/search?query=midea%20portasplit"},
+
+    # Tschechien
+    {"name": "Alza CZ", "url": "https://www.alza.cz/search.htm?exps=midea%20portasplit"},
+    {"name": "Heureka CZ", "url": "https://www.heureka.cz/?h%5Bfraze%5D=midea+portasplit"},
+    {"name": "Mall CZ", "url": "https://www.mall.cz/hledani?query=midea%20portasplit"},
+    {"name": "CZC", "url": "https://www.czc.cz/hledat?q=midea%20portasplit"},
+    {"name": "Datart", "url": "https://www.datart.cz/vyhledavani.html?search=midea%20portasplit"},
+    {"name": "Bazos CZ", "url": "https://www.bazos.cz/search.php?hledat=midea%20portasplit"},
+
+    # Polen / Niederlande
     {"name": "Ceneo PL", "url": "https://www.ceneo.pl/;szukaj-midea+portasplit"},
     {"name": "Bol NL", "url": "https://www.bol.com/nl/nl/s/?searchtext=midea+portasplit"},
+
+    # Sonstige
+    {"name": "Google Shopping", "url": "https://www.google.com/search?tbm=shop&q=midea+portasplit"}
 ]
+    
 
 def clean_text(text):
     return " ".join(text.split())
