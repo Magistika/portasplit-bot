@@ -123,7 +123,19 @@ def is_relevant(text):
     if "midea" not in t:
         return False
 
-    if "portasplit" not in t:
+    porta_patterns = [
+        "portasplit",
+        "porta split",
+        "porta-split",
+        "mppd",
+        "12000 btu",
+        "mobile split",
+        "mobiles split",
+        "split klimaanlage",
+        "split-klimaanlage"
+    ]
+
+    if not any(pattern in t for pattern in porta_patterns):
         return False
 
     bad_words = [
@@ -140,7 +152,9 @@ def is_relevant(text):
         "bedienungsanleitung",
         "manual",
         "spare",
-        "cover"
+        "cover",
+        "ersatzfilter",
+        "dichtung"
     ]
 
     for word in bad_words:
